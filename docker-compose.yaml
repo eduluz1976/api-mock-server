@@ -1,0 +1,29 @@
+version: "3"
+
+
+services:
+  nginx:
+    build: 
+      context: .
+      dockerfile: _docker/nginx/Dockerfile
+    ports:
+      - ${API_TEST_PORT}:8080
+      - ${API_CONTROL_PORT}:8081
+    depends_on:
+        - backend
+    volumes: 
+        - "./backend-src:/srv"
+        - "./logs:/var/log"
+    env_file: 
+        - .env
+
+  backend:
+    build: 
+      context: .
+      dockerfile: _docker/backend/Dockerfile
+    volumes: 
+        - "./backend-src:/srv"
+    env_file: 
+        - .env
+
+    
