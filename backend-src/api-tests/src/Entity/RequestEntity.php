@@ -8,11 +8,15 @@ class RequestEntity {
     protected $transactionId;
     protected $steps;
     protected $status;
+    protected $origin;
+    protected $selector;
     protected $createdAt;
 
     const TRANSACTION_ID = 'transactionId';
     const STEPS = 'steps';
     const STATUS = 'status';
+    const ORIGIN = 'origin';
+    const SELECTOR = 'selector';
     const CREATED_AT = 'createdAt';
 
     public function __construct() {
@@ -102,6 +106,48 @@ class RequestEntity {
         return $this;
     }
 
+
+
+    /**
+     * Get the value of origin
+     */ 
+    public function getOrigin()
+    {
+        return $this->origin;
+    }
+
+    /**
+     * Set the value of origin
+     *
+     * @return  self
+     */ 
+    public function setOrigin($origin)
+    {
+        $this->origin = $origin;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of selector
+     */ 
+    public function getSelector()
+    {
+        return $this->selector;
+    }
+
+    /**
+     * Set the value of selector
+     *
+     * @return  self
+     */ 
+    public function setSelector($selector)
+    {
+        $this->selector = $selector;
+
+        return $this;
+    }
+
     /**
      * Encode as string
      *
@@ -148,6 +194,8 @@ class RequestEntity {
             case self::TRANSACTION_ID: $this->setTransactionId($value); break;
             case self::STATUS: $this->setStatus($value); break;
             case self::STEPS: $this->setSteps($value); break;
+            case self::ORIGIN: $this->setOrigin($value); break;
+            case self::SELECTOR: $this->setSelector($value); break;
         }
     }
 
@@ -162,9 +210,12 @@ class RequestEntity {
             self::TRANSACTION_ID => $this->getTransactionId(),
             self::STATUS => $this->getStatus(),
             self::STEPS => $this->getSteps(),
+            self::ORIGIN => $this->getOrigin(),
+            self::SELECTOR => $this->getSelector(),
             self::CREATED_AT => $this->getCreatedAt(),
         ];
     }
 
     
+
 }

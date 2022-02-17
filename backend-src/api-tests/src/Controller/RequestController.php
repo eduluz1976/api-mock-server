@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+// use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,8 +11,9 @@ use App\Service\RequestService;
 use App\Entity\RequestEntity;
 use \App\Exception\RequestNotFoundException;
 use \App\Exception\InvalidInputException;
+use \App\Utils\RequestUtils;
 
-class RequestController extends AbstractController
+class RequestController extends BaseController
 {
 
     
@@ -34,6 +35,22 @@ class RequestController extends AbstractController
         }
         return $this->requestService;
     }
+
+    protected function getAdditionalRequestFields($request) {
+        $res = [];
+
+        $res['origin'] =  RequestUtils::getOriginFromRequest($request);
+        
+        $res['selector'] = [
+            'condition' => 'match-all'
+        ];
+
+        return $res;
+    }
+
+    protected function hash($value) {
+        return \hash('sha256', $value);
+    }
     
 
     /**
@@ -50,8 +67,13 @@ class RequestController extends AbstractController
             $response->setStatusCode(Response::HTTP_BAD_REQUEST);            
         } else {
             $requestEntity = new RequestEntity();
+
+            $payload = array_merge($payload, $this->getAdditionalRequestFields($request));
+
+
             $requestEntity->import($payload);
     
+
             $transactionId = $this->getRequestService()->save($requestEntity);
     
             $aResponse = [

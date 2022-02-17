@@ -8,6 +8,7 @@ use \App\Entity\RequestEntity;
 use \App\Factory\RequestFactory;
 use \App\Exception\RequestNotFoundException;
 use \App\Exception\InvalidInputException;
+use \App\Utils\RequestUtils;
 
 class RequestService {
 
@@ -36,7 +37,7 @@ class RequestService {
 
         $request = $this->setFieldsToSave($request, $transactionId);
 
-        $this->getRedisClient()->set($this->getKey($transactionId), $request->export());
+        $this->getRedisClient()->hSet('request',$this->getKey($transactionId), $request->export());
 
         return $transactionId;
     }
@@ -67,7 +68,7 @@ class RequestService {
         $this->validateTransactionId($transactionId);
 
 
-        $data = $this->getRedisClient()->get($this->getKey($transactionId));
+        $data = $this->getRedisClient()->hget('request',$this->getKey($transactionId));
         
         if (!$data) {
             throw new RequestNotFoundException("Request with id $transactionId was not found");
@@ -78,5 +79,47 @@ class RequestService {
         return $request;
     }
 
+
+
+    public function getAll() {
+
+
+        $ls = $this->getRedisClient()->hGetAll('request');
+
+        $myLs = [];
+        $requests = [];
+
+        // $currOrigin = 
+
+        foreach ($ls as $transactionId => $requestArr) {
+
+            $request = RequestFactory::makeEntity($requestArr);
+
+
+            $requests[] = $request;
+
+            // if ($request)
+            // $origin = $request->getOrigin();
+            // $selector = $request->getSelector();
+
+
+            // if ($selector['condition'] === 'match-all') {
+
+
+            //     if ()
+
+            // }
+
+
+            // $myLs[] = 
+        }
+
+        return $requests;
+
+        // echo "<pre>";
+        // print_r($myLs);
+        // print_r($ls);
+        // exit;
+    }
 
 }
