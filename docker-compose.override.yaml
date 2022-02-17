@@ -1,0 +1,20 @@
+services:
+
+  dev:
+    build: 
+      context: .
+      dockerfile: _docker/dev/Dockerfile
+    volumes: 
+      - "./backend-src:/srv"
+      - "./backend-tests:/tests"
+    env_file: 
+      - .env
+
+
+  redis-ui:
+    image: marian/rebrow
+    depends_on:
+      - redis
+    ports:
+      - "5001:5001"
+          
