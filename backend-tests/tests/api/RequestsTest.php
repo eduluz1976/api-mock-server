@@ -122,5 +122,18 @@ class RequestsTest extends Commons
 
     }
     
+    /** 
+     * @test 
+     * @depends test_configuring_request_on_admin_should_return_transactionId
+     * */
+    public function test_invoke_api_should_return_expected_value()
+    {
+
+        $response = $this->getClient()->request('GET', '/url_configured');
+
+        $this->assertEquals(200, $response->getStatusCode());
+
+    }
+    
         
 }
