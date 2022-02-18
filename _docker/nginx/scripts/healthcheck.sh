@@ -2,7 +2,7 @@
 
 echo "working... ${ENV_TARGET}"
 
-curl http://localhost:8081/health/ -o /tmp/health.txt
+curl http://localhost:8081/health -o /tmp/health.txt
 
 HEALTH_STATUS=`cat /tmp/health.txt`
 

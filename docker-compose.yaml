@@ -25,5 +25,11 @@ services:
         - "./backend-src:/srv"
     env_file: 
         - .env
+    depends_on:
+        - redis
 
-    
+
+  redis:
+    build: 
+      context: .
+      dockerfile: _docker/redis/Dockerfile

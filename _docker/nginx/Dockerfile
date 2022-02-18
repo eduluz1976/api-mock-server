@@ -8,14 +8,14 @@ LABEL PROJECT_URL "https://github.com/eduluz1976/api-mock-server/"
 
 WORKDIR /srv
 
-COPY _docker/nginx/nginx.conf /root/nginx.conf.tpl
+COPY _docker/nginx/conf/* /root
 
 COPY _docker/nginx/scripts /root/scripts
 
 COPY _docker/nginx/static/index.html /srv/healthcheck/health/index.html
 
 # COPY nginx.conf /etc/nginx/nginx.conf
-RUN apk update && apk add bash
+# RUN apk update && apk add bash
 
 RUN chmod +x /root/scripts/*
 
