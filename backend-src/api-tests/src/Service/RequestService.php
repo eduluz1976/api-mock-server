@@ -10,22 +10,12 @@ use \App\Exception\RequestNotFoundException;
 use \App\Exception\InvalidInputException;
 use \App\Utils\RequestUtils;
 
-class RequestService {
+class RequestService extends BaseService {
 
 
+    const TYPE = 'request';
 
-    /** @var  \Predis\Client */
-    private $redisClient;
-
-
-    protected function getRedisClient() {
-        if (!$this->redisClient) {
-            $this->redisClient = new \Predis\Client(['host'=>'redis']);
-        }
-        return $this->redisClient;
-    }
-
-    protected function getKey($transactionId) {
+    protected function getKey($transactionId) : string {
         return 'request:'.$transactionId;
     }
 
@@ -37,7 +27,7 @@ class RequestService {
 
         $request = $this->setFieldsToSave($request, $transactionId);
 
-        $this->getRedisClient()->hSet('request',$this->getKey($transactionId), $request->export());
+        $this->getRedisClient()->hSet(self::TYPE,$this->getKey($transactionId), $request->export());
 
         return $transactionId;
     }
@@ -50,12 +40,6 @@ class RequestService {
     }
 
 
-    protected function validateTransactionId($transactionId) {
-        if (strlen($transactionId) !== 64) {
-            throw new InvalidInputException("Invalid transactionId");
-        }
-    }
-
 
     /**
      * Return a given Request
@@ -63,12 +47,12 @@ class RequestService {
      * @param string $transactionId
      * @return RequestEntity
      */
-    public function get($transactionId) {
+    public function get($transactionId) : RequestEntity {
 
         $this->validateTransactionId($transactionId);
 
 
-        $data = $this->getRedisClient()->hget('request',$this->getKey($transactionId));
+        $data = $this->getRedisClient()->hget(self::TYPE,$this->getKey($transactionId));
         
         if (!$data) {
             throw new RequestNotFoundException("Request with id $transactionId was not found");
@@ -81,15 +65,15 @@ class RequestService {
 
 
 
-    public function getAll() {
-
+    /**
+     *
+     * @return array
+     */
+    public function getAll() : array {
 
         $ls = $this->getRedisClient()->hGetAll('request');
 
-        $myLs = [];
         $requests = [];
-
-        // $currOrigin = 
 
         foreach ($ls as $transactionId => $requestArr) {
 
@@ -98,28 +82,17 @@ class RequestService {
 
             $requests[] = $request;
 
-            // if ($request)
-            // $origin = $request->getOrigin();
-            // $selector = $request->getSelector();
-
-
-            // if ($selector['condition'] === 'match-all') {
-
-
-            //     if ()
-
-            // }
-
-
-            // $myLs[] = 
         }
 
         return $requests;
+    }
 
-        // echo "<pre>";
-        // print_r($myLs);
-        // print_r($ls);
-        // exit;
+    public function update(RequestEntity $requestEntity) {
+        $transactionId = $requestEntity->getTransactionId();
+        $result = $this->getRedisClient()->hset(self::TYPE,$this->getKey($transactionId), $requestEntity->export());
+        if (false === $result) {
+            throw new \Exception("Error updating request $transactionId");
+        }
     }
 
 }

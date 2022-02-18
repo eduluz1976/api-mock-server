@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 
-class RequestEntity {
+class RequestEntity  extends BaseEntity {
 
     protected $transactionId;
     protected $steps;
@@ -22,8 +22,6 @@ class RequestEntity {
     public function __construct() {
         $this->setCreatedAt(gmdate('Y-m-d H:i:s'));
     }
-
-
 
     /**
      * Get the value of transactionId
@@ -148,40 +146,7 @@ class RequestEntity {
         return $this;
     }
 
-    /**
-     * Encode as string
-     *
-     * @return string
-     */
-    public function __toString() {
-        return $this->export();
-    }
-
-
-    
-    /**
-     * Import an array items to this object
-     *
-     * @param array $array
-     * @return self
-     */
-    public function import(array $array) : self{
-        foreach ($array as $key => $value) {
-            $this->importField($key, $value);
-        }
-        return $this;
-    }
-
-
-    /**
-     * Return a string 
-     *
-     * @return string
-     */
-    public function export() : string {
-        return \json_encode($this->toArray());
-    }
-
+ 
     /**
      * Import all fields into this object
      *
@@ -196,6 +161,7 @@ class RequestEntity {
             case self::STEPS: $this->setSteps($value); break;
             case self::ORIGIN: $this->setOrigin($value); break;
             case self::SELECTOR: $this->setSelector($value); break;
+            case self::CREATED_AT: $this->setCreatedAt($value); break;
         }
     }
 
