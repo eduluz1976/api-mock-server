@@ -2,13 +2,10 @@
 
 namespace App\Utils;
 
-
-
-class RequestUtils {
-
-
-
-    public static function getOriginFromRequest($request) {
+class RequestUtils
+{
+    public static function getOriginFromRequest($request)
+    {
         $res = [
             'ip' => $_SERVER['REMOTE_ADDR'],
             'hash-cookie' => self::hash($request->headers->get('Cookie'))
@@ -18,19 +15,19 @@ class RequestUtils {
     }
 
 
-    public static function match($currOrigin, $requestRecord) {
-
-
+    public static function match($currOrigin, $requestRecord)
+    {
         $recordOrigin = $requestRecord->getOrigin();
         $recordSelector = $requestRecord->getSelector();
 
         $hashCookie = $recordOrigin['hash-cookie'] ?? null;
 
-        if (($recordOrigin['ip'] === $currOrigin['ip']) 
-                && ($hashCookie === $currOrigin['hash-cookie'])
-                ) {
-                    return true;
-                }
+        if ($recordOrigin['ip'] === $currOrigin['ip']) {
+            if ($hashCookie === $currOrigin['hash-cookie']) {
+                return true;
+            }
+        }
+
 
 
         // if ($recordSelector['condition'] === 'match-all') {
@@ -44,9 +41,8 @@ class RequestUtils {
 
 
 
-    public static function hash($value) {
+    public static function hash($value)
+    {
         return \hash('sha256', $value);
     }
-    
-
 }
