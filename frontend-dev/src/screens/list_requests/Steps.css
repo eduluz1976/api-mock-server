@@ -1,0 +1,68 @@
+
+
+.request-step-pre {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.request-step-label {
+    float: left;
+    margin-right: 10px;
+
+}
+
+.request-step-pre SPAN {
+    float: left;
+}
+
+.request-step-index {
+    width: 28px;
+    background-color: #444;
+    min-height:80px;
+    text-align: center;
+    display: inline-flex;
+}
+
+.request-step-index SPAN {
+    color: white;
+    align-self: center;
+    width: 100%;
+}
+
+
+.request-step-block {
+    float: left;    
+    padding: 10px;
+    margin-right: 10px;
+}
+
+.request-step-wrapper {
+    display: flex;
+}
+
+.request-step-block-header {
+    font-weight: bolder;
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+
+
+.request-to-be {
+    background-color: #ddd;
+}
+
+.request-as-is {
+    background-color:#bbb; 
+}
+
+.item-not-match {
+    color: darkred;
+    font-weight: bold;    
+}
+
+
+
+.item-match {
+    color: darkgreen;
+}
+

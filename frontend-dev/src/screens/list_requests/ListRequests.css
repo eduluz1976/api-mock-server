@@ -1,0 +1,62 @@
+
+.item-request-row {
+    float: none;
+    clear: both;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-left: 10px;
+    width: 100%;
+}
+
+
+.item-request-col {
+    float: left;
+    margin-right: 10px;
+}
+
+
+.item-label {
+    color: gray;
+
+}
+
+.item-id {
+    color: black;
+    font-weight: bold;
+}
+
+
+
+.item-value {
+    font-weight: bold;
+}
+
+.item-status {
+    font-weight: bold;
+}
+
+
+.item-status-pending {
+    color:darkslategray;
+}
+
+.item-status-running {
+    color:navy;    
+}
+
+
+.item-status-done {
+    color:green;    
+}
+
+
+.item-status-error {
+    color:darkred;    
+}
+
+
+
+
+
