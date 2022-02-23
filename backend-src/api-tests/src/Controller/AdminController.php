@@ -15,6 +15,7 @@ class AdminController extends BaseController
      */
     public function index()
     {
-        return new Response("<h1>Welcome to ASM-UI</h1>");
+        // return new Response("<h1>Welcome to ASM-UI</h1>");
+        return $this->render('admin/index.html.twig', ['title'=>'Welcome to ASM-UI']);
     }
 }

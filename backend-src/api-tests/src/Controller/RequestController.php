@@ -187,4 +187,39 @@ class RequestController extends BaseController
 
         return $response;
     }
+
+
+    /**
+     *
+     *
+     * @Route("/requests")
+     *
+     */
+    public function getAllRequestsWithTransaction()
+    {
+        // $response = new Response();
+
+        $lsResult = [];
+
+        $lsRequests = $this->getRequestService()->getAll();
+
+        foreach ($lsRequests as $request) {
+            $item = [
+                'request' => $request->toArray()
+            ];
+
+            $transaction = $this->getTransactionService()->getOrElseCreate($request->getTransactionId());
+            if ($transaction) {
+                $item['transaction'] = $transaction->toArray();
+            }
+
+            $lsResult[] = $item;
+        }
+
+        return $this->json($lsResult);
+
+
+
+        // return $response;
+    }
 }
