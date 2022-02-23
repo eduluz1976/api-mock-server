@@ -17,4 +17,16 @@ services:
       - redis
     ports:
       - "5001:5001"
-          
+
+
+
+  frontend-dev:
+    build:
+      context: .
+      dockerfile: _docker/frontend/Dockerfile
+    volumes: 
+      - "./frontend-dev:/srv"
+    env_file: 
+      - .env
+    ports:
+      - ${API_FRONTEND_PORT}:3000
